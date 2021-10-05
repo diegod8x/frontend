@@ -1,0 +1,64 @@
+<div class="person-content">
+
+  <div class="head">
+    <div class="label">Actualiza el store </div>
+    <button mat-raised-button color="primary" (click)="getData()">Probar</button>
+  </div>
+
+  <div>
+    <mat-form-field class="filter">
+      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filtro">
+    </mat-form-field>
+  </div>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef width="10%"> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="avatar">
+        <th mat-header-cell *matHeaderCellDef width="15%"> Avatar </th>
+        <td mat-cell *matCellDef="let element"> <img src="{{ element.avatar }}" class="tile-image" class="avatar" /> </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef width="20%"> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef width="20%"> Apellido </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef width="45%"> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+      
+  
+      <ng-container matColumnDef="initValue">
+        <td mat-cell class="no-cell" *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <ng-container *ngIf="!!(error$ | async) && !loading">
+            <span>Ha ocurrido un error, por favor intente más tarde.</span>
+          </ng-container>
+          <ng-container *ngIf="loading">          
+              <span>Recuperando información, por favor espere.</span>  
+            </ng-container>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <ng-container *ngIf="!loading">
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="person-row"></tr>
+        </ng-container>
+        <ng-container *ngIf="loading">
+          <tr mat-row *matRowDef="let row; columns: ['initValue'];" class="no-row" ></tr>
+        </ng-container>
+    
+    </table>
+  </div>
+  
+</div>
